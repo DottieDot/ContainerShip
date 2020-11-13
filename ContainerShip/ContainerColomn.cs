@@ -12,7 +12,7 @@ namespace ContainerShip
 
 		public IContainer[] Containers => _containers.ToArray();
 
-		public int TotalWeight => _containers.Sum(item => item.Weight);
+		public uint TotalWeight => _containers.Aggregate(0u, (accumulator, next) => accumulator + next.Weight);
 
 		public IContainer this[int index] => _containers[index];
 

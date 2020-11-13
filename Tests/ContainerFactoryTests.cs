@@ -7,7 +7,7 @@ using ContainerShip.Enums;
 namespace Tests
 {
 	[TestClass]
-	public class ContainerFactoryTest
+	public class ContainerFactoryTests
 	{
 		[TestMethod]
 		public void Create_FreightTypeNormal_ContainerInstance()

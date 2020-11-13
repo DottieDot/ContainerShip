@@ -6,6 +6,6 @@ namespace ContainerShip
 	{
 		public override FreightType Type => FreightType.Refrigerated;
 
-		public RefrigeratedContainer(int weight) : base(weight) { }
+		public RefrigeratedContainer(uint weight) : base(weight) { }
 	}
 }

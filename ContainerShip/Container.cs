@@ -1,18 +1,24 @@
-﻿using ContainerShip.Interfaces;
+﻿using System;
+using ContainerShip.Interfaces;
 using ContainerShip.Enums;
 
 namespace ContainerShip
 {
 	public class Container : IContainer
 	{
-		int _weight;
+		uint _weight;
 
 		public virtual FreightType Type => FreightType.Normal;
-		public int Weight => 4000 + _weight;
+		public uint Weight => 4000 + _weight;
 
-		public Container(int weight)
+		public Container(uint weight)
 		{
 			this._weight = weight;
+
+			if (Weight > 30_000)
+			{
+				throw new ArgumentException();
+			}
 		}
 	}
 }

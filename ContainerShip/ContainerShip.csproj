@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container.cs" />
+    <Compile Include="ContainerColomn.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Enums\FreightType.cs" />
     <Compile Include="Interfaces\IContainer.cs" />

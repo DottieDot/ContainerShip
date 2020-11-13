@@ -6,7 +6,7 @@ namespace ContainerShip
 {
 	public static class ContainerFactory
 	{
-		static public IContainer Create(FreightType freightType, int weight)
+		static public IContainer Create(FreightType freightType, uint weight)
 		{
 			switch (freightType)
 			{
