@@ -2,10 +2,10 @@
 
 namespace ContainerShip
 {
-	public class ValuableContainer : Container
+	public class ValuableFreightContainer : FreightContainer
 	{
 		public override FreightType Type => FreightType.Valuable;
 
-		public ValuableContainer(uint weight) : base(weight) { }
+		public ValuableFreightContainer(uint weight) : base(weight) { }
 	}
 }

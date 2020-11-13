@@ -6,27 +6,27 @@ using ContainerShip.Interfaces;
 
 namespace ContainerShip
 {
-	public class ContainerColomn : IContainerColomn, IEnumerable
+	public class FreightContainerColomn : IFreightContainerColomn, IEnumerable
 	{
-		List<IContainer> _containers;
+		List<IFreightContainer> _containers = new List<IFreightContainer>();
 
-		public IContainer[] Containers => _containers.ToArray();
+		public IFreightContainer[] Containers => _containers.ToArray();
 
 		public uint TotalWeight => _containers.Aggregate(0u, (accumulator, next) => accumulator + next.Weight);
 
-		public IContainer this[int index] => _containers[index];
+		public IFreightContainer this[int index] => _containers[index];
 
 		public IEnumerator GetEnumerator()
 		{
 			return _containers.GetEnumerator();
 		}
 
-		public bool CanAddContainer(IContainer container)
+		public bool CanAddContainer(IFreightContainer container)
 		{
 			return (TotalWeight + container.Weight) <= 120_000;
 		}
 
-		public void AddContainer(IContainer container)
+		public void AddContainer(IFreightContainer container)
 		{
 			if (CanAddContainer(container))
 			{
@@ -38,7 +38,7 @@ namespace ContainerShip
 			}
 		}
 
-		public bool TryAddContainer(IContainer container)
+		public bool TryAddContainer(IFreightContainer container)
 		{
 			try
 			{

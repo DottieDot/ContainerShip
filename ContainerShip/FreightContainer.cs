@@ -4,7 +4,7 @@ using ContainerShip.Enums;
 
 namespace ContainerShip
 {
-	public class Container : IContainer
+	public class Container : IFreightContainer
 	{
 		uint _weight;
 

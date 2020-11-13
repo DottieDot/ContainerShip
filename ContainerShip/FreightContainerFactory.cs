@@ -4,18 +4,18 @@ using ContainerShip.Enums;
 
 namespace ContainerShip
 {
-	public static class ContainerFactory
+	public static class FreightContainerFactory
 	{
-		static public IContainer Create(FreightType freightType, uint weight)
+		static public IFreightContainer Create(FreightType freightType, uint weight)
 		{
 			switch (freightType)
 			{
 				case FreightType.Normal:
-					return new Container(weight);
+					return new FreightContainer(weight);
 				case FreightType.Refrigerated:
-					return new RefrigeratedContainer(weight);
+					return new RefrigeratedFreightContainer(weight);
 				case FreightType.Valuable:
-					return new ValuableContainer(weight);
+					return new ValuableFreightContainer(weight);
 				default:
 					throw new NotImplementedException();
 			}

@@ -2,7 +2,7 @@
 
 namespace ContainerShip.Interfaces
 {
-	public interface IContainer
+	public interface IFreightContainer
 	{
 		FreightType Type { get; }
 		uint Weight { get; }

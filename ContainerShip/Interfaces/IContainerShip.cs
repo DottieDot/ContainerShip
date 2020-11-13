@@ -5,6 +5,6 @@ namespace ContainerShip.Interfaces
 	{
 		int Width { get; }
 		int Length { get; }
-		IContainerRow[] ContainerRows { get; }
+		IFreightContainerRow[] ContainerRows { get; }
 	}
 }
