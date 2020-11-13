@@ -8,7 +8,7 @@ namespace ContainerShip
 	{
 		uint _weight;
 
-		public virtual FreightType Type => FreightType.Refrigerated;
+		public virtual FreightType Type => FreightType.Normal;
 		public uint Weight => 4000 + _weight;
 
 		public FreightContainer(uint weight)

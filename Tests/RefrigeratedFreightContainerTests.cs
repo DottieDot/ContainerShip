@@ -10,7 +10,7 @@ namespace Tests
 		[TestMethod]
 		public void Type_Refrigerated()
 		{
-			var container = new FreightContainer(0);
+			var container = new RefrigeratedFreightContainer(0);
 			Assert.AreEqual(container.Type, FreightType.Refrigerated);
 		}
 	}
