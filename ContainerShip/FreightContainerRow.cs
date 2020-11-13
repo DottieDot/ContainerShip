@@ -4,31 +4,31 @@ using ContainerShip.Interfaces;
 
 namespace ContainerShip
 {
-	class FreightContainerRow : IFreightContainerRow, IEnumerable
+	public class FreightContainerRow : IFreightContainerRow, IEnumerable
 	{
-		public IFreightContainerColomn[] Colomns { get; }
+		public IFreightContainerColumn[] Columns { get; }
 
-		public uint TotalWeight => Colomns.Aggregate(0u, (accumulator, next) => accumulator + next.TotalWeight);
+		public uint TotalWeight => Columns.Aggregate(0u, (accumulator, next) => accumulator + next.TotalWeight);
 
-		public FreightContainerRow(uint colomns)
+		public FreightContainerRow(uint columns)
 		{
-			this.Colomns = new IFreightContainerColomn[colomns];
+			this.Columns = new IFreightContainerColumn[columns];
 			initializeContainerColomns();
 		}
 
 		private void initializeContainerColomns()
 		{
-			for (int i = 0; i < Colomns.Length; ++i)
+			for (var i = 0; i < Columns.Length; ++i)
 			{
-				Colomns[i] = new FreightContainerColomn();
+				Columns[i] = new FreightContainerColumn();
 			}
 		}
 
-		public IFreightContainerColomn this[int index] => Colomns[index];
+		public IFreightContainerColumn this[int index] => Columns[index];
 
 		public IEnumerator GetEnumerator()
 		{
-			return Colomns.GetEnumerator();
+			return Columns.GetEnumerator();
 		}
 	}
 }

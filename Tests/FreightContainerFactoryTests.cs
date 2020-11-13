@@ -32,7 +32,7 @@ namespace Tests
 
 		[TestMethod]
 		[ExpectedException(typeof(NotImplementedException))]
-		public void Create_InvalidFreigthType_ThrowsNotImplementedException()
+		public void Create_InvalidFreightType_ThrowsNotImplementedException()
 		{
 			FreightContainerFactory.Create((FreightType)1000, 0);
 		}

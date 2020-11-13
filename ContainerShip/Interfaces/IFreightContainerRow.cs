@@ -3,7 +3,7 @@ namespace ContainerShip.Interfaces
 {
 	public interface IFreightContainerRow
 	{
-		IFreightContainerColomn[] Colomns { get; }
+		IFreightContainerColumn[] Columns { get; }
 		uint TotalWeight { get; }
 	}
 }

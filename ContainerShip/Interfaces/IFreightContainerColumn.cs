@@ -1,7 +1,7 @@
 ﻿
 namespace ContainerShip.Interfaces
 {
-	public interface IFreightContainerColomn
+	public interface IFreightContainerColumn
 	{
 		IFreightContainer[] Containers { get; }
 		uint TotalWeight { get; }

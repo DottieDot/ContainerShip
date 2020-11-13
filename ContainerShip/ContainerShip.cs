@@ -4,7 +4,7 @@ using ContainerShip.Interfaces;
 
 namespace ContainerShip
 {
-	class ContainerShip : IContainerShip
+	public class ContainerShip : IContainerShip
 	{
 		public uint Width { get; }
 
@@ -27,7 +27,7 @@ namespace ContainerShip
 
 		private void initializeContainerRows()
 		{
-			for (int i = 0; i < ContainerRows.Length; ++i)
+			for (var i = 0; i < ContainerRows.Length; ++i)
 			{
 				ContainerRows[i] = new FreightContainerRow(Width);
 			}
@@ -39,8 +39,8 @@ namespace ContainerShip
 
 		public double GetWeightBalanceRatio()
 		{
-			double leftWeight = getLeftWeight();
-			double rightWeight = getRightWeight();
+			var leftWeight = getLeftWeight();
+			var rightWeight = getRightWeight();
 
 			return (leftWeight / rightWeight) - 1;
 		}

@@ -43,12 +43,12 @@
   <ItemGroup>
     <Compile Include="ContainerShip.cs" />
     <Compile Include="FreightContainer.cs" />
-    <Compile Include="FreightContainerColomn.cs" />
+    <Compile Include="FreightContainerColumn.cs" />
     <Compile Include="FreightContainerFactory.cs" />
     <Compile Include="Enums\FreightType.cs" />
     <Compile Include="FreightContainerRow.cs" />
     <Compile Include="Interfaces\IFreightContainer.cs" />
-    <Compile Include="Interfaces\IFreightContainerColomn.cs" />
+    <Compile Include="Interfaces\IFreightContainerColumn.cs" />
     <Compile Include="Interfaces\IFreightContainerRow.cs" />
     <Compile Include="Interfaces\IContainerShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

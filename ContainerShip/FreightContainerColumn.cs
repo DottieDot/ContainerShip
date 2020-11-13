@@ -8,7 +8,7 @@ namespace ContainerShip
 {
 	public class FreightContainerColumn : IFreightContainerColumn, IEnumerable
 	{
-		readonly List<IFreightContainer> _containers = new List<IFreightContainer>();
+		private readonly List<IFreightContainer> _containers = new List<IFreightContainer>();
 
 		public IFreightContainer[] Containers => _containers.ToArray();
 
