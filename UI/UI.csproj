@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ContainerShip\ContainerShip.csproj">
+      <Project>{3c69d5f5-c728-4b7d-932b-99b5871ab16d}</Project>
+      <Name>ContainerShip</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

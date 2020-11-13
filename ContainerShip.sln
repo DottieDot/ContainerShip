@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{CA096E9C-FAF3-4732-A46E-01F7467E2A8C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3C69D5F5-C728-4B7D-932B-99B5871AB16D} = {3C69D5F5-C728-4B7D-932B-99B5871AB16D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerShip", "ContainerShip\ContainerShip.csproj", "{3C69D5F5-C728-4B7D-932B-99B5871AB16D}"
 EndProject
