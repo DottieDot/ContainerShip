@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ContainerShip.Interfaces
 {
-	interface IContainerShip
+	public interface IContainerShip
 	{
 		int Width { get; }
 		int Length { get; }

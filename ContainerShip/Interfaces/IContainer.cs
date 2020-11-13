@@ -7,7 +7,7 @@ using ContainerShip.Enums;
 
 namespace ContainerShip.Interfaces
 {
-	interface IContainer
+	public interface IContainer
 	{
 		FreightType Type { get; }
 		int Weight { get; }

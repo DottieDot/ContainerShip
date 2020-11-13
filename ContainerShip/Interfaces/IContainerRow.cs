@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ContainerShip.Interfaces
 {
-	interface IContainerRow
+	public interface IContainerRow
 	{
 		IContainerColomn[] Colomns { get; }
 		int TotalWeight { get; }
