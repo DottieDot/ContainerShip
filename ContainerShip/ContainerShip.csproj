@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerShip.cs" />
     <Compile Include="FreightContainer.cs" />
     <Compile Include="FreightContainerColomn.cs" />
     <Compile Include="FreightContainerFactory.cs" />
     <Compile Include="Enums\FreightType.cs" />
+    <Compile Include="FreightContainerRow.cs" />
     <Compile Include="Interfaces\IFreightContainer.cs" />
     <Compile Include="Interfaces\IFreightContainerColomn.cs" />
     <Compile Include="Interfaces\IFreightContainerRow.cs" />
