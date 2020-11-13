@@ -10,21 +10,21 @@ namespace Tests
 	public class ContainerFactoryTest
 	{
 		[TestMethod]
-		public void CreateNormalContainer()
+		public void Create_FreightTypeNormal_ContainerInstance()
 		{
 			IContainer container = ContainerFactory.Create(FreightType.Normal, 0);
 			Assert.IsInstanceOfType(container, typeof(Container));
 		}
 
 		[TestMethod]
-		public void CreateRefrigeratedContainer()
+		public void Create_FreightTypeRefrigerated_RefrigeratedContainerInstance()
 		{
 			IContainer container = ContainerFactory.Create(FreightType.Refrigerated, 0);
 			Assert.IsInstanceOfType(container, typeof(RefrigeratedContainer));
 		}
 
 		[TestMethod]
-		public void CreateValuableContainer()
+		public void Create_FreightTypeValuable_ValuableContainerInstance()
 		{
 			IContainer container = ContainerFactory.Create(FreightType.Valuable, 0);
 			Assert.IsInstanceOfType(container, typeof(ValuableContainer));
@@ -32,9 +32,9 @@ namespace Tests
 
 		[TestMethod]
 		[ExpectedException(typeof(NotImplementedException))]
-		public void CreateInvalidContainer()
+		public void Create_InvalidFreigthType_ThrowsNotImplementedException()
 		{
-			IContainer container = ContainerFactory.Create((FreightType)1000, 0);
+			ContainerFactory.Create((FreightType)1000, 0);
 		}
 	}
 }
