@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ContainerShip.Properties
+namespace UI.Properties
 {
 
 
