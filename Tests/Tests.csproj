@@ -49,9 +49,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContainerFactoryTests.cs" />
-    <Compile Include="ContainerTests.cs" />
+    <Compile Include="FreightContainerFactoryTests.cs" />
+    <Compile Include="FreightContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefrigeratedFreightContainerTests.cs" />
+    <Compile Include="ValuableFreightContainerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

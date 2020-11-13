@@ -4,14 +4,14 @@ using ContainerShip.Enums;
 
 namespace ContainerShip
 {
-	public class Container : IFreightContainer
+	public class FreightContainer : IFreightContainer
 	{
 		uint _weight;
 
-		public virtual FreightType Type => FreightType.Normal;
+		public virtual FreightType Type => FreightType.Refrigerated;
 		public uint Weight => 4000 + _weight;
 
-		public Container(uint weight)
+		public FreightContainer(uint weight)
 		{
 			this._weight = weight;
 
