@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ContainerShip.Interfaces
 {
 	public interface IContainerColomn
 	{
-		List<IContainer> Containers { get; }
+		IContainer[] Containers { get; }
 		int TotalWeight { get; }
+
+		bool CanAddContainer(IContainer container);
+
+		void AddContainer(IContainer container);
+
+		bool TryAddContainer(IContainer container);
 	}
 }
