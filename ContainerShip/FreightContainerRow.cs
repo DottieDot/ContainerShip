@@ -13,6 +13,15 @@ namespace ContainerShip
 		public FreightContainerRow(uint colomns)
 		{
 			this.Colomns = new IFreightContainerColomn[colomns];
+			initializeContainerColomns();
+		}
+
+		private void initializeContainerColomns()
+		{
+			for (int i = 0; i < Colomns.Length; ++i)
+			{
+				Colomns[i] = new FreightContainerColomn();
+			}
 		}
 
 		public IFreightContainerColomn this[int index] => Colomns[index];

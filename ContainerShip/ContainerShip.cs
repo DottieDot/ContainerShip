@@ -17,7 +17,7 @@ namespace ContainerShip
 			this.Width = width;
 			this.Length = length;
 			ContainerRows = new IFreightContainerRow[length];
-			this.populateContainerRows();
+			initializeContainerRows();
 
 			if (width == 0 || length == 0)
 			{
@@ -25,9 +25,9 @@ namespace ContainerShip
 			}
 		}
 
-		private void populateContainerRows()
+		private void initializeContainerRows()
 		{
-			for (int i = 0; i < Length; ++i)
+			for (int i = 0; i < ContainerRows.Length; ++i)
 			{
 				ContainerRows[i] = new FreightContainerRow(Width);
 			}
@@ -37,7 +37,7 @@ namespace ContainerShip
 
 		private double getRightWeight() => ContainerRows.Skip((int)Math.Ceiling(Length / 2.0)).Aggregate(0.0, (accumulator, next) => accumulator + next.TotalWeight);
 
-		private double getWeightBalanceRatio()
+		public double GetWeightBalanceRatio()
 		{
 			double leftWeight = getLeftWeight();
 			double rightWeight = getRightWeight();
@@ -45,6 +45,6 @@ namespace ContainerShip
 			return (leftWeight / rightWeight) - 1;
 		}
 
-		public bool IsBalanced() => Math.Abs(getWeightBalanceRatio()) < .2;
+		public bool IsBalanced() => Math.Abs(GetWeightBalanceRatio()) < .2;
 	}
 }

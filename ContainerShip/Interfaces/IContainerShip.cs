@@ -6,5 +6,6 @@ namespace ContainerShip.Interfaces
 		uint Width { get; }
 		uint Length { get; }
 		IFreightContainerRow[] ContainerRows { get; }
+		double GetWeightBalanceRatio();
 	}
 }
