@@ -3,8 +3,8 @@ namespace ContainerShip.Interfaces
 {
 	public interface IContainerShip
 	{
-		int Width { get; }
-		int Length { get; }
+		uint Width { get; }
+		uint Length { get; }
 		IFreightContainerRow[] ContainerRows { get; }
 	}
 }
