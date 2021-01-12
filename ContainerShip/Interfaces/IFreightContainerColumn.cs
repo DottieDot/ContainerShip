@@ -11,5 +11,7 @@ namespace ContainerShip.Interfaces
 		void AddContainer(IFreightContainer container);
 
 		bool TryAddContainer(IFreightContainer container);
+
+		bool HasValuableContainer();
 	}
 }

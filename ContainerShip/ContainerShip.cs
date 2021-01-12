@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using ContainerShip.Interfaces;
+using System.Collections.Generic;
+using ContainerShip.Enums;
 
 namespace ContainerShip
 {
@@ -17,7 +19,7 @@ namespace ContainerShip
 			this.Width = width;
 			this.Length = length;
 			ContainerRows = new IFreightContainerRow[length];
-			initializeContainerRows();
+			InitializeContainerRows();
 
 			if (width == 0 || length == 0)
 			{
@@ -25,7 +27,7 @@ namespace ContainerShip
 			}
 		}
 
-		private void initializeContainerRows()
+		private void InitializeContainerRows()
 		{
 			for (var i = 0; i < ContainerRows.Length; ++i)
 			{
@@ -33,14 +35,44 @@ namespace ContainerShip
 			}
 		}
 
-		private double getLeftWeight() => ContainerRows.Take((int)Math.Floor(Length / 2.0)).Aggregate(0.0, (accumulator, next) => accumulator + next.TotalWeight);
+		private void PlaceValuableContainers(IFreightContainer[] containers)
+		{
+			int containersPerRow = (int)(containers.Length / (double)Length);
 
-		private double getRightWeight() => ContainerRows.Skip((int)Math.Ceiling(Length / 2.0)).Aggregate(0.0, (accumulator, next) => accumulator + next.TotalWeight);
+			for (int i = 0; i < containers.Length; ++i)
+			{
+				var row = ContainerRows[(int)Math.Floor((i + 1) / (double)containersPerRow)];
+				row.AddContainer(containers[i]);
+			}
+
+			foreach (var row in ContainerRows)
+			{
+				row.AddGapsToValuableContainers();
+			}
+		}
+
+		private void PlaceNormalContainers(IFreightContainer[] containers)
+		{
+
+		}
+
+		public void LoadContainers(IFreightContainer[] containers)
+		{
+			var valuableContainers = containers.Where(container => container.Type == FreightType.Valuable).ToArray();
+			var normalContainers = containers.Where(container => container.Type == FreightType.Normal).ToArray();
+
+			PlaceValuableContainers(valuableContainers);
+			PlaceNormalContainers(normalContainers);
+		}
+
+		private double GetLeftWeight() => ContainerRows.Take((int)Math.Floor(Length / 2.0)).Aggregate(0.0, (accumulator, next) => accumulator + next.TotalWeight);
+
+		private double GetRightWeight() => ContainerRows.Skip((int)Math.Ceiling(Length / 2.0)).Aggregate(0.0, (accumulator, next) => accumulator + next.TotalWeight);
 
 		public double GetWeightBalanceRatio()
 		{
-			var leftWeight = getLeftWeight();
-			var rightWeight = getRightWeight();
+			var leftWeight = GetLeftWeight();
+			var rightWeight = GetRightWeight();
 
 			return (leftWeight / rightWeight) - 1;
 		}

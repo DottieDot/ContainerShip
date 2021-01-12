@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using ContainerShip.Interfaces;
+using ContainerShip.Enums;
 
 namespace ContainerShip
 {
@@ -21,8 +22,16 @@ namespace ContainerShip
 			return _containers.GetEnumerator();
 		}
 
+		public bool HasValuableContainer()
+		{
+			return _containers.Find(container => container.Type == FreightType.Valuable) != null;
+		}
+
 		public bool CanAddContainer(IFreightContainer container)
 		{
+			if (HasValuableContainer() && container.Type == FreightType.Valuable)
+				return false;
+
 			return (TotalWeight + container.Weight) <= 120_000;
 		}
 
@@ -30,7 +39,14 @@ namespace ContainerShip
 		{
 			if (CanAddContainer(container))
 			{
-				_containers.Add(container);
+				if (container.Type == FreightType.Valuable)
+				{
+					_containers.Add(container);
+				}
+				else
+				{
+					_containers.Insert(0, container);
+				}
 			}
 			else
 			{
