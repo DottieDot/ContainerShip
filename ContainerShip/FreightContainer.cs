@@ -8,11 +8,12 @@ namespace ContainerShip
 	{
 		readonly uint _weight;
 
-		public virtual FreightType Type => FreightType.Normal;
+		public FreightType Type { get; }
 		public uint Weight => 4000 + _weight;
 
-		public FreightContainer(uint weight)
+		public FreightContainer(FreightType type, uint weight)
 		{
+			Type = type;
 			this._weight = weight;
 
 			if (Weight > 30_000)

@@ -6,7 +6,7 @@ using ContainerShip.Enums;
 
 namespace ContainerShip
 {
-	public class FreightContainerRow : IFreightContainerRow, IEnumerable
+	public class FreightContainerRow : IFreightContainerRow
 	{
 		public IFreightContainerColumn[] Columns { get; }
 
@@ -29,13 +29,6 @@ namespace ContainerShip
 			}
 		}
 
-		public IFreightContainerColumn this[int index] => Columns[index];
-
-		public IEnumerator GetEnumerator()
-		{
-			return Columns.GetEnumerator();
-		}
-
 		private bool IsValuableContainerInColumnBlockedOnBothSides(int columnIndex)
 		{
 			if (columnIndex == 0 || columnIndex == (Columns.Length - 1))
@@ -54,31 +47,44 @@ namespace ContainerShip
 				(rightColumn.Containers.Length >= column.Containers.Length);
 		}
 
+		private void AddValuableContainer(IFreightContainer container)
+		{
+			int numValuable = GetNumberOfValuableContainers();
+			if (numValuable == Columns.Length)
+			{
+				throw new InvalidOperationException();
+			}
+
+			bool left = (numValuable % 2) == 0;
+
+			int offset = (int)Math.Floor(numValuable / 2.0);
+			int rightIndex = Columns.Length - 1 - offset;
+			Columns[left ? offset : rightIndex].AddContainer(container);
+		}
+
+		private void AddNormalContainer(IFreightContainer container)
+		{
+			for (int i = 0; i < Columns.Length; ++i)
+			{
+				if (IsValuableContainerInColumnBlockedOnBothSides(i) && Columns[i].TryAddContainer(container))
+					return;
+			}
+
+			throw new InvalidOperationException();
+		}
+
 		public void AddContainer(IFreightContainer container)
 		{
-			if (container.Type == FreightType.Valuable)
+			switch (container.Type)
 			{
-				int numValuable = GetNumberOfValuableContainers();
-				if (numValuable == Columns.Length)
-				{
-					throw new InvalidOperationException();
-				}
-
-				bool left = (numValuable % 2) == 0;
-
-				int offset = (int)Math.Floor(numValuable / 2.0);
-				int rightIndex = Columns.Length - 1 - offset;
-				Columns[left ? offset : rightIndex].AddContainer(container);
-			}
-			else
-			{
-				for (int i = 0; i < Columns.Length; ++i)
-				{
-					if (IsValuableContainerInColumnBlockedOnBothSides(i) && Columns[i].TryAddContainer(container))
-						return;
-				}
-
-				throw new InvalidOperationException();
+				case FreightType.Valuable:
+					AddValuableContainer(container);
+					break;
+				case FreightType.Normal:
+					AddNormalContainer(container);
+					break;
+				default:
+					throw new NotImplementedException();
 			}
 		}
 
@@ -88,7 +94,7 @@ namespace ContainerShip
 			return Columns.Length - numValuable;
 		}
 
-		private int GetNumContainersForTriangle(int width)
+		private int GetNumNormalContainersForTriangle(int width)
 		{
 			int internalWidth = Math.Max(width - 2, 0);
 			int internalHeight = (int)Math.Ceiling(internalWidth / 2.0);
@@ -103,23 +109,23 @@ namespace ContainerShip
 			int numValuable = GetNumberOfValuableContainers();
 			int gaps = GetNumberOfValuableContainerGaps();
 
-			int triagnles = gaps + 1;
-			int triangleWidth = (int)Math.Ceiling(numValuable / (double)triagnles);
+			int triangles = gaps + 1;
+			int triangleWidth = (int)Math.Ceiling(numValuable / (double)triangles);
 
-			int centerTriangleWidth = (int)Math.Floor((numValuable / (double)triagnles));
+			int centerTriangleWidth = (int)Math.Floor((numValuable / (double)triangles));
 
-			return (GetNumContainersForTriangle(triangleWidth) * (triagnles - 1)) + GetNumContainersForTriangle(centerTriangleWidth);
+			return (GetNumNormalContainersForTriangle(triangleWidth) * (triangles - 1)) + GetNumNormalContainersForTriangle(centerTriangleWidth);
 		}
 
-		void ShiftColumnsToCenter(int startIndex, bool right)
+		void ShiftColumnsToCenter(int startIndex, bool rightToLeft)
 		{
 			double center = Columns.Length / 2.0;
 
-			int aColumnIndex = right ? (Columns.Length - 1 - startIndex) : startIndex;
+			int aColumnIndex = rightToLeft ? (Columns.Length - 1 - startIndex) : startIndex;
 			int bColumnIndex = 0;
 			for (int i = startIndex; i < center; ++i)
 			{
-				int index = right ? (Columns.Length - 1 - i) : i;
+				int index = rightToLeft ? (Columns.Length - 1 - i) : i;
 				if (Columns[index].Containers.Length == 0)
 				{
 					bColumnIndex = index;

@@ -318,5 +318,24 @@ namespace Tests.UnitTests
 			Assert.AreEqual(2, row.Columns[9].Containers.Length);
 			Assert.AreEqual(1, row.Columns[10].Containers.Length);
 		}
+
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void AddContainer_TooManyValuable_ThrowInvalidOperationException()
+		{
+			// Arrange
+			var mockedValuable = new Mock<IFreightContainer>();
+			mockedValuable.Setup(mock => mock.Type).Returns(FreightType.Valuable);
+			var mockedNormal = new Mock<IFreightContainer>();
+			mockedNormal.Setup(mock => mock.Type).Returns(FreightType.Normal);
+
+			var row = new FreightContainerRow(3);
+
+			// Act
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+		}
 	}
 }

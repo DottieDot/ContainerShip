@@ -53,7 +53,16 @@ namespace ContainerShip
 
 		private void PlaceNormalContainers(IFreightContainer[] containers)
 		{
-
+			int nextContainerIndex = 0;
+			foreach (var row in ContainerRows)
+			{
+				int numRequired = row.GetRequiredNormalContainers();
+				for (int i = 0; i < numRequired; ++i)
+				{
+					row.AddContainer(containers[nextContainerIndex]);
+					++nextContainerIndex;
+				}
+			}
 		}
 
 		public void LoadContainers(IFreightContainer[] containers)

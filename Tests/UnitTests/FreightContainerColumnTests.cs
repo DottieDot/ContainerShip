@@ -5,10 +5,10 @@ using ContainerShip.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Tests
+namespace Tests.UnitTests
 {
 	[TestClass]
-	public class ContainerColumnTests
+	public class FreightContainerColumnTests
 	{
 		[TestMethod]
 		public void TotalWeight_Empty_0kg()

@@ -1,12 +1,47 @@
-﻿<Window x:Class="UI.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
+        x:Class="UI.MainWindow"
         mc:Ignorable="d"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="200" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid Grid.Column="0" Background="#FFECECEC">
+			<StackPanel Orientation="Vertical" Margin="5">
+				<TextBlock Text="Ship" TextAlignment="Center" />
+				<Separator/>
+				<TextBlock Text="Length" Margin="0 5 0 2"  />
+				<TextBox Text="{Binding ShipLength}" />
+				<TextBlock Text="Width" Margin="0 5 0 2" />
+				<TextBox Text="{Binding ShipWidth}" />
+				<TextBlock Text="Containers" TextAlignment="Center" Margin="0 10 0 0" />
+				<Separator/>
+				<TextBlock Text="Type" Margin="0 5 0 2"  />
+				<TextBox />
+				<TextBlock Text="Cago Weight" Margin="0 5 0 2" />
+				<TextBox Text="{Binding CargoWeight}"  />
+				<TextBlock Text="Amount" Margin="0 5 0 2" />
+				<TextBox Text="{Binding NumContainers}" />
+				<Button Content="Add Containers" Margin="0 5 0 0" Name="btnAddContainers" Click="btnAddContainers_Click" />
+				<TextBlock Text="Tools" TextAlignment="Center" Margin="0 10 0 0" />
+				<Separator/>
+				<Button Content="Generate Ship Layout" Margin="0 5 0 0" />
+			</StackPanel>
+		</Grid>
+		<Grid Grid.Column="1">
+			<DataGrid ItemsSource="{Binding Containers}" AutoGenerateColumns="False" CanUserResizeRows="False" Name="dgContainers" LoadingRow="dgContainers_LoadingRow">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Type" Width="*" Binding="{Binding Type}" />
+					<DataGridTextColumn Header="Weight" Width="*" Binding="{Binding Weight}" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+	</Grid>
 </Window>

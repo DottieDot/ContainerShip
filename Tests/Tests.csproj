@@ -63,12 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UnitTests\FreightContainerRowTests.cs" />
-    <Compile Include="UnitTests\FreightContainerFactoryTests.cs" />
     <Compile Include="UnitTests\FreightContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTests\RefrigeratedFreightContainerTests.cs" />
-    <Compile Include="UnitTests\ContainerColumnTests.cs" />
-    <Compile Include="UnitTests\ValuableFreightContainerTests.cs" />
+    <Compile Include="UnitTests\FreightContainerColumnTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
