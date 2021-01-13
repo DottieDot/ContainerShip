@@ -27,12 +27,26 @@ namespace ContainerShip
 			return _containers.Find(container => container.Type == FreightType.Valuable) != null;
 		}
 
-		public bool CanAddContainer(IFreightContainer container)
+		private bool CanAddContainer(IFreightContainer container)
 		{
 			if (HasValuableContainer() && container.Type == FreightType.Valuable)
 				return false;
 
-			return (TotalWeight + container.Weight) <= 120_000;
+			if (Containers.Length != 0)
+			{
+				if (Containers[0].Type == FreightType.Valuable || Containers[0].Weight > container.Weight)
+				{
+					return (TotalWeight - Containers[0].Weight) + container.Weight <= 120_000;
+				}
+				else
+				{
+					return TotalWeight <= 120_000;
+				}
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		public void AddContainer(IFreightContainer container)
@@ -45,7 +59,14 @@ namespace ContainerShip
 				}
 				else
 				{
-					_containers.Insert(0, container);
+					if ((Containers.Length != 0) && (Containers[0].Type != FreightType.Valuable) && (Containers[0].Weight > container.Weight))
+					{
+						_containers.Insert(1, container);
+					}
+					else
+					{
+						_containers.Insert(0, container);
+					}
 				}
 			}
 			else

@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace ContainerShip.Interfaces
 {
 	public interface IContainerShip
@@ -7,5 +8,6 @@ namespace ContainerShip.Interfaces
 		uint Length { get; }
 		IFreightContainerRow[] ContainerRows { get; }
 		double GetWeightBalanceRatio();
+		void LoadContainers(IEnumerable<IFreightContainer> containers);
 	}
 }

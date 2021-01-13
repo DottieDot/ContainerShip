@@ -320,6 +320,55 @@ namespace Tests.UnitTests
 		}
 
 		[TestMethod]
+		public void AddContainer_5NormalContainers9ValuableContainers2Gaps()
+		{
+			// Arrange
+			var mockedValuable = new Mock<IFreightContainer>();
+			mockedValuable.Setup(mock => mock.Type).Returns(FreightType.Valuable);
+			var mockedNormal = new Mock<IFreightContainer>();
+			mockedNormal.Setup(mock => mock.Type).Returns(FreightType.Normal);
+
+			var row = new FreightContainerRow(11);
+
+			// Act
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddContainer(mockedValuable.Object);
+			row.AddGapsToValuableContainers();
+
+			row.AddContainer(mockedNormal.Object);
+			row.AddContainer(mockedNormal.Object);
+			row.AddContainer(mockedNormal.Object);
+
+			// Non triangle containers
+			row.AddContainer(mockedNormal.Object);
+			row.AddContainer(mockedNormal.Object);
+
+			// Assert
+			Assert.AreEqual(2, row.Columns[0].Containers.Length);
+			Assert.AreEqual(2, row.Columns[1].Containers.Length);
+			Assert.AreEqual(1, row.Columns[2].Containers.Length);
+
+			Assert.AreEqual(0, row.Columns[3].Containers.Length);
+
+			Assert.AreEqual(1, row.Columns[4].Containers.Length);
+			Assert.AreEqual(2, row.Columns[5].Containers.Length);
+			Assert.AreEqual(1, row.Columns[6].Containers.Length);
+
+			Assert.AreEqual(0, row.Columns[7].Containers.Length);
+
+			Assert.AreEqual(1, row.Columns[8].Containers.Length);
+			Assert.AreEqual(2, row.Columns[9].Containers.Length);
+			Assert.AreEqual(2, row.Columns[10].Containers.Length);
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void AddContainer_TooManyValuable_ThrowInvalidOperationException()
 		{

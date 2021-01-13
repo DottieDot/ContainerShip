@@ -8,7 +8,7 @@ namespace ContainerShip
 {
 	public class FreightContainerRow : IFreightContainerRow
 	{
-		public IFreightContainerColumn[] Columns { get; }
+		public IFreightContainerColumn[] Columns { get; private set; }
 
 		public uint TotalWeight => Columns.Aggregate(0u, (accumulator, next) => accumulator + next.TotalWeight);
 
@@ -27,6 +27,36 @@ namespace ContainerShip
 			{
 				Columns[i] = new FreightContainerColumn();
 			}
+		}
+
+		private bool CanColumnBeRaisedWithoutBlockingValuableContainer(int columnIndex)
+		{
+			var column = Columns[columnIndex];
+			if (columnIndex > 1)
+			{
+				var leftColumn = Columns[columnIndex - 1];
+				var leftLeftColumn = Columns[columnIndex - 2];
+
+				if (leftColumn.HasValuableContainer() && 
+					(leftColumn.Containers.Length <= leftLeftColumn.Containers.Length) &&
+					((column.Containers.Length + 1) >= leftColumn.Containers.Length))
+				{
+					return false;
+				}
+			}
+			if (columnIndex < (Columns.Length - 1))
+			{
+				var rightColumn = Columns[columnIndex + 1];
+				var rightRightColumn = Columns[columnIndex + 2];
+
+				if (rightColumn.HasValuableContainer() &&
+					(rightColumn.Containers.Length <= rightRightColumn.Containers.Length) &&
+					((column.Containers.Length + 1) >= rightColumn.Containers.Length))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private bool IsValuableContainerInColumnBlockedOnBothSides(int columnIndex)
@@ -62,11 +92,37 @@ namespace ContainerShip
 			Columns[left ? offset : rightIndex].AddContainer(container);
 		}
 
+		public int GetNumberOfContainersExcludingCenter()
+		{
+			int result = 0;
+			for (int i = 0; i < (Columns.Length / 2.0); ++i)
+			{
+				result += Columns[i].Containers.Length;
+				result += Columns[Columns.Length - 1 - i].Containers.Length;
+			}
+			return result;
+		}
+
+		public int GetSymetricIndex(int index)
+		{
+			int numContainers = GetNumberOfContainersExcludingCenter();
+			bool left = (numContainers % 2) == 0;
+
+			return left ? index : (Columns.Length - 1 - index);
+		}
+
 		private void AddNormalContainer(IFreightContainer container)
 		{
 			for (int i = 0; i < Columns.Length; ++i)
 			{
-				if (IsValuableContainerInColumnBlockedOnBothSides(i) && Columns[i].TryAddContainer(container))
+				int index = GetSymetricIndex(i);
+				if (IsValuableContainerInColumnBlockedOnBothSides(index) && Columns[index].TryAddContainer(container))
+					return;
+			}
+			for (int i = 0; i < Columns.Length; ++i)
+			{
+				int index = GetSymetricIndex(i);
+				if (CanColumnBeRaisedWithoutBlockingValuableContainer(index) && Columns[index].TryAddContainer(container))
 					return;
 			}
 
@@ -158,6 +214,24 @@ namespace ContainerShip
 				ShiftColumnsToCenter(n, false);
 				ShiftColumnsToCenter(n, true);
 			}
+		}
+
+		public bool TryAddContainer(IFreightContainer container)
+		{
+			try
+			{
+				AddContainer(container);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public void ReverseColumns()
+		{
+			Columns = Columns.Reverse().ToArray();
 		}
 	}
 }

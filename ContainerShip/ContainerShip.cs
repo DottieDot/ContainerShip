@@ -51,7 +51,7 @@ namespace ContainerShip
 			}
 		}
 
-		private void PlaceNormalContainers(IFreightContainer[] containers)
+		private IEnumerable<IFreightContainer> PlaceNormalContainersIntoPiramides(IFreightContainer[] containers)
 		{
 			int nextContainerIndex = 0;
 			foreach (var row in ContainerRows)
@@ -59,19 +59,67 @@ namespace ContainerShip
 				int numRequired = row.GetRequiredNormalContainers();
 				for (int i = 0; i < numRequired; ++i)
 				{
+					if (nextContainerIndex >= containers.Length)
+					{
+						throw new InvalidOperationException();
+					}
+
 					row.AddContainer(containers[nextContainerIndex]);
 					++nextContainerIndex;
 				}
 			}
+
+			return containers.Skip(nextContainerIndex);
 		}
 
-		public void LoadContainers(IFreightContainer[] containers)
+		private void PlaceRemainingNormalContainers(IEnumerable<IFreightContainer> containers)
 		{
-			var valuableContainers = containers.Where(container => container.Type == FreightType.Valuable).ToArray();
-			var normalContainers = containers.Where(container => container.Type == FreightType.Normal).ToArray();
+			int nextContainerIndex = 0;
+			var heaviest = containers.Reverse().ToArray();
+
+			foreach (var row in ContainerRows)
+			{
+				if (row.TryAddContainer(heaviest[nextContainerIndex]))
+				{
+					++nextContainerIndex;
+					if (nextContainerIndex == heaviest.Length)
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		private void PlaceNormalContainers(IFreightContainer[] containers)
+		{
+			var remainingContainers = PlaceNormalContainersIntoPiramides(containers);
+			if (remainingContainers.Count() != 0)
+			{
+				PlaceRemainingNormalContainers(remainingContainers);
+			}
+		}
+
+		public void LoadContainers(IEnumerable<IFreightContainer> containers)
+		{
+			var valuableContainers = containers
+				.Where(container => container.Type == FreightType.Valuable)
+				.OrderByDescending(container => container.Weight)
+				.ToArray();
+			var normalContainers = containers
+				.Where(container => container.Type == FreightType.Normal)
+				.OrderBy(container => container.Weight)
+				.ToArray();
 
 			PlaceValuableContainers(valuableContainers);
 			PlaceNormalContainers(normalContainers);
+
+			for (int i = 0; i < ContainerRows.Length; ++i)
+			{
+				if ((i % 2) == 0)
+				{
+					ContainerRows[i].ReverseColumns();
+				}
+			}
 		}
 
 		private double GetLeftWeight() => ContainerRows.Take((int)Math.Floor(Length / 2.0)).Aggregate(0.0, (accumulator, next) => accumulator + next.TotalWeight);
@@ -85,7 +133,5 @@ namespace ContainerShip
 
 			return (leftWeight / rightWeight) - 1;
 		}
-
-		public bool IsBalanced() => Math.Abs(GetWeightBalanceRatio()) < .2;
 	}
 }
